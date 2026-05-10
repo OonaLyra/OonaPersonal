@@ -5,7 +5,7 @@
 #include "stb_image_write.h"
 #include <stdlib.h>
 /* Command to compile is: cc blobtracker.c -o blobtracker -lm*/
-/* Ver 0.1.0 */
+/* Ver 0.0.4 */
 /* A structure that i defined up here so it would be */
 /* easier to work with. And it's finally being used ;3*/
 typedef struct
@@ -31,9 +31,11 @@ int	image_devouring(int	width, int height, unsigned char *data)
 	int	ny;
 	int	nx;
 	int	nrs_pix_idx;
+	int	n_idx;
 	int cx;
 	int cy;
 	int	b;
+	int	nbr_brightness;
 	long long 	b_sum_x;
 	long long	b_sum_y;
 	/* That's kind of a map the pixels already processed so we don't do
@@ -49,22 +51,14 @@ int	image_devouring(int	width, int height, unsigned char *data)
 	x = 0;
 	y = 0;
 	ky = -20;
-	while (i < width * height)
+	// Escurece a imagem original para o roxo brilhar mais
+    i = 0;
+    while (i < width * height * 4)
 	{
-		idx = i * 4;
-		brightness = ((data[idx] + data[idx + 1] + data[idx + 2]) / 3);
-		if (brightness > 150)
-		{
-			data[idx] = 255;
-			data[idx + 1] = 255;
-			data[idx + 2] = 255;
-		} else {
-			data[idx] = 0;
-			data[idx + 1] = 0;
-			data[idx + 2] = 0;
-		}
-		i++;
-	}
+        if (i % 4 != 3)
+            data[i] = data[i] / 2;
+        i++;
+    }
 	// blob detection loop
 	while (y < height)
 	{
@@ -73,8 +67,10 @@ int	image_devouring(int	width, int height, unsigned char *data)
 		{
 			pix_idx = y * width + x;
 			data_idx = pix_idx * 4;
+			brightness = (data[data_idx] + data[data_idx + 1] + data[data_idx + 2]) / 3;
+
 			/* Non-visited white pixel*/
-			if (data[data_idx] == 255 && !visited[pix_idx])
+			if (brightness > 75 && !visited[pix_idx])
 			{
 				if (blob_count >= 100)
 					break;
@@ -93,7 +89,9 @@ int	image_devouring(int	width, int height, unsigned char *data)
 						if (nx >= 0 && nx < width && ny >= 0 && ny < height)
 						{
 							nrs_pix_idx = ny * width + nx;
-							if (data[nrs_pix_idx * 4] == 255 && !visited[nrs_pix_idx])
+							n_idx = nrs_pix_idx * 4;
+							nbr_brightness = (data[n_idx] + data [n_idx + 1] + data[n_idx + 2]) / 3;
+							if (nbr_brightness > 75 && !visited[nrs_pix_idx])
 							{
 								visited[nrs_pix_idx] = 1;
 								b_sum_x += nx;
@@ -120,17 +118,18 @@ int	image_devouring(int	width, int height, unsigned char *data)
 		y++;
 	}
 	b = 0;
+	/* Draw a new cross at each single blob found.*/
     while (b < blob_count)
     {
         cx = blobs[b].center_x;
         cy = blobs[b].center_y;
-        ky = -50; 
-        while (ky <= 50)
+        ky = -250; 
+        while (ky <= 250)
         {
-            kx = -50;
-            while (kx <= 50)
+            kx = -250;
+            while (kx <= 250)
             {
-                if (ky == -50 || ky == 50 || kx == -50 || kx == 50)
+                if (ky == -250 || ky == 250 || kx == -250 || kx == 250)
                 {
                     ny = cy + ky;
                     nx = cx + kx;
@@ -149,24 +148,30 @@ int	image_devouring(int	width, int height, unsigned char *data)
         b++;
     }
 	stbi_write_jpg("finished_job.jpg", width, height, 4, data, 100);
-	printf("Imagem devorada e cuspida pela estrela como: finished_job.jpg\n");
+	printf("Imagem cuspida pela estrela como: finished_job.jpg\n");
 	free(visited);
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	int	width;
 	int	height;
 	int	channels;
-	unsigned char *data = stbi_load("image.png", &width, &height, &channels, 4);
+	if (argc != 2)
+	{
+		printf("Por favor, providencie um argumento válido.\nExecução: %s \"insira_aqui_o_caminho_da_imagem.png\"\n", argv[0]);
+		return (0);
+	}
+	unsigned char *data = stbi_load(argv[1], &width, &height, &channels, 4);
 	if (!data)
 	{
 		printf("Erro ao carregar a imagem.\n");
 		return (1);
+	} else {
+		printf("Imagem carregada com sucesso: %dx%d | %d canais.\n", width, height, channels);
+		image_devouring(width, height, data);
+		stbi_image_free(data);
 	}
-	printf("Imagem carregada com sucesso: %dx%d | %d canais.\n", width, height, channels);
-	image_devouring(width, height, data);
-	stbi_image_free(data);
 	return (0);
 }

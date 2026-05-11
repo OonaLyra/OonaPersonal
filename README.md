@@ -2,8 +2,6 @@
 
 > a transfem computer vision experiment somewhere between surveillance software and emotional glitch art.
 
-![blobtracker preview](./preview.png)
-
 ## Overview
 
 `blobtracker` is a low-level computer vision and image processing project written in C.
@@ -37,13 +35,9 @@ Most software attempts to remove uncertainty.
 
 `blobtracker` explores what happens when uncertainty becomes texture.
 
-The goal is not simply:
+The goal is just:
 
-> "make a machine detect objects"
-
-but rather:
-
-> "make a machine perceive images in emotionally interesting ways"
+> "make a machine perceive images and catch the essense of what is inside them."
 
 This project exists somewhere in the intersection between:
 

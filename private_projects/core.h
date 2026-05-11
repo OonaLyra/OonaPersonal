@@ -18,9 +18,22 @@ typedef struct
 	
 } Soulcatcher;
 
+typedef struct
+{
+	int	b_sum_x;
+	int b_sum_y;
+	int	b_pixels;
+	unsigned char	*visited;
+	Blob	blobs[100];
+	int	blob_count;
+	
+} Theeye;
+
 int	image_devouring(char *imagepath);
-int	image_dissecting(Soulcatcher *img);
-int nebula_detection(Soulcatcher *img);
+int	image_dissecting(Soulcatcher *img, Theeye *eye);
+int nebula_detection(Soulcatcher *img, Theeye *eye);
 int	essence_enacted(Soulcatcher *img, char *imagepath);
+int	object_exhibit(int ky, int kx);
+int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y);
 
 #endif // CORE_H

@@ -6,7 +6,7 @@
 
 `blobtracker` is a low-level computer vision and image processing project written in C.
 
-Originally created as an experiment in blob detection and primitive object tracking, the project slowly evolved into something stranger:
+Originally created as an experiment in blob detection and primitive object tracking, this project slowly began to evolve into something stranger:
 
 * part surveillance software
 * part aesthetic engine
@@ -25,7 +25,7 @@ The project combines:
 
 The current versions intentionally preserve imperfections.
 
-Detection instability, noisy thresholds, inaccurate tracking, and visual artifacts are not always treated as flaws — many of them actively contribute to the visual identity of the generated outputs.
+Detection instability, noisy thresholds, inaccurate tracking, and visual artifacts are not always treated as flaws. Many of them actively contribute to the visual identity of the generated outputs. By my definition, this is soul bottled inside lenses and neon lights.
 
 ---
 
@@ -35,9 +35,9 @@ Most software attempts to remove uncertainty.
 
 `blobtracker` explores what happens when uncertainty becomes texture.
 
-The goal is just:
+The goal is simple:
 
-> "make a machine perceive images and catch the essense of what is inside them."
+> "make a machine perceive images and catch the essence of what is inside them."
 
 This project exists somewhere in the intersection between:
 
@@ -82,7 +82,7 @@ This project exists somewhere in the intersection between:
 * GPU acceleration experiments
 * Datamoshing integration
 * Glitch feedback loops
-(But it can go into may different ways...)
+(But it can go into many different ways...)
 
 ---
 
@@ -175,6 +175,10 @@ I like:
 Because proprietary software can imitate aesthetics.
 
 But building your own tools means embedding your perception directly into the machine.
+
+"The problem isn't that I'm going insane, but rather that I'm not.
+
+My true euphoria comes from c codes in a black canvas and low-res edits while i build digital flowers for a soul garden that i will one day gift."
 
 ---
 

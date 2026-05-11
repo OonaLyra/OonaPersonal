@@ -8,6 +8,7 @@
 int	image_devouring(char *imagepath)
 {
 	Soulcatcher img;
+	Theeye eye;
 	img.data = stbi_load(imagepath, &img.width, &img.height, &img.channels, 4);
 	if (!img.data)
 	{
@@ -17,7 +18,7 @@ int	image_devouring(char *imagepath)
 	}
 	else
 	{
-		image_dissecting(&img);
+		image_dissecting(&img, &eye);
 
 		printf("Object successfully initiated: %dx%d | %d canais.\n", img.width, img.height, img.channels);
 		essence_enacted(&img, imagepath);
@@ -26,7 +27,23 @@ int	image_devouring(char *imagepath)
 	return (0);
 }
 
-int	nebula_detection(Soulcatcher *img)
+int	object_exhibit(int ky, int kx)
+{
+	/* This function has the goal of simply drawing over
+	the found blob, being only called by the nebula detection
+	and will only ever be used inside it.*/
+	return (0);
+}
+
+int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
+{
+	/* This function exists only to bear the algoryth to find blobs
+	inside the devoured file and will be invoked inside the image 
+	dissecting function and will only ever be used inside it.*/
+	return (0);
+}
+
+int	nebula_detection(Soulcatcher *img, Theeye *eye)
 {
 	int	ky;
 	int	kx;
@@ -39,7 +56,7 @@ int	nebula_detection(Soulcatcher *img)
 
 	y = 0;
 	/*just tone down the image overall bright to
-	see if it's working as intended*/
+	see if it's working as intended (it is.)*/
 	i = 0;
     while (i < img->width * img->height * 4)
 	{
@@ -61,21 +78,18 @@ int	nebula_detection(Soulcatcher *img)
 	return (0);
 }
 
-int	image_dissecting(Soulcatcher *img)
+int	image_dissecting(Soulcatcher *img, Theeye *eye)
 {
-	int	b_sum_x;
-	int b_sum_y;
-	int	b_pixels;
 	int	i;
 	/* Map for visited pixels*/
-	unsigned char	*visited = (unsigned char *)calloc(img->width * img->height, 1);
+	eye->visited = (unsigned char *)calloc(img->width * img->height, 1);
 
 	/*temp blob stats */
-	b_sum_x = 0;
-	b_sum_y = 0;
-	b_pixels = 0;
-	nebula_detection(img);
-	free(visited);
+	eye->b_sum_x = 0;
+	eye->b_sum_y = 0;
+	eye->b_pixels = 0;
+	nebula_detection(img, eye);
+	free(eye->visited);
 	return (0);
 }
 int	essence_enacted(Soulcatcher *img, char *imagepath)

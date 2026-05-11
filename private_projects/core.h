@@ -9,7 +9,18 @@ typedef struct
 	int obj_index;
 } Blob;
 
+typedef struct
+{
+	int	width;
+	int height;
+	int channels;
+	unsigned char *data;
+	
+} Soulcatcher;
+
 int	image_devouring(char *imagepath);
-int	image_dissecting(int width, int height, unsigned char *data);
+int	image_dissecting(Soulcatcher *img);
+int nebula_detection(Soulcatcher *img);
+int	essence_enacted(Soulcatcher *img, char *imagepath);
 
 #endif // CORE_H

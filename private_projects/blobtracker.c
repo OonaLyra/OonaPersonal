@@ -5,6 +5,9 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
+/* Command to compile is: cc blobtracker.c processing.c -o blobtracker -lm
+And to run you just ./blobtracker 'image_path.png'
+Ver 0.0.5*/
 int main(int argc, char *argv[])
 {
 	int	i;

@@ -1,13 +1,14 @@
-// #include <stdio.h>
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "stb_image.h"
-// #define STB_IMAGE_WRITE_IMPLEMENTATION
-// #include "stb_image_write.h"
-// #include <stdlib.h>
-/* Command to compile is: cc blobtracker.c -o blobtracker -lm*/
-/* Ver 0.0.4 */
-/* A structure that i defined up here so it would be */
-/* easier to work with. And it's finally being used ;3*/
+#include <stdio.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+#include <stdlib.h>
+/*Command to compile is: cc blobtracker_old.c -o blobtracker -lm
+And to run you just ./blobtracker 'image_path.png'
+Ver 0.0.4
+A structure that i defined up here so it would be
+easier to work with. And it's finally being used ;3*/
 typedef struct
 {
 	int	id;

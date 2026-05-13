@@ -31,7 +31,9 @@ int	object_exhibit(int ky, int kx)
 {
 	/* This function has the goal of simply drawing over
 	the found blob, being only called by the nebula detection
-	and will only ever be used inside it.*/
+	and will only ever be used inside it. Already exists on the
+	blobtracker_old.c, but scrambled in code, i'm still making a
+	solid recursive function to it.*/
 	return (0);
 }
 
@@ -43,6 +45,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 	return (0);
 }
 
+/* This is the finder of funny things in the image*/
 int	nebula_detection(Soulcatcher *img, Theeye *eye)
 {
 	int	ky;
@@ -92,6 +95,8 @@ int	image_dissecting(Soulcatcher *img, Theeye *eye)
 	free(eye->visited);
 	return (0);
 }
+/* This right here saves the file with the name of the original name
+plus _renewed.jpg at the end.*/
 int	essence_enacted(Soulcatcher *img, char *imagepath)
 {
 	char	*essence = strrchr(imagepath, '/');

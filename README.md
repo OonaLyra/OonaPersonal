@@ -1,190 +1,401 @@
 # blobtracker
 
-> a transfem computer vision experiment somewhere between surveillance software and emotional glitch art.
+> a low-level computer vision engine drifting somewhere between surveillance systems, recursive perception and emotional glitch aesthetics.
+
+---
 
 ## Overview
 
-`blobtracker` is a low-level computer vision and image processing project written in C.
+`blobtracker` is an experimental computer vision project written in pure C.
 
-Originally created as an experiment in blob detection and primitive object tracking, this project slowly began to evolve into something stranger:
+The project started as a simple blob detection experiment during a sleepless night and slowly evolved into a modular perception engine capable of dissecting images, identifying regions of interest and transforming them into annotated visual artifacts.
 
-* part surveillance software
-* part aesthetic engine
-* part perception experiment
-* part digital art instrument
+The engine currently focuses on:
 
-The project combines:
-
-* image thresholding
-* centroid estimation
-* primitive blob tracking
-* recursive visual composition
+* low-level image processing
+* brightness analysis
+* primitive object detection
+* blob region tracking
+* recursive visual experimentation
 * glitch aesthetics
-* datamoshing-inspired visuals
-* experimental machine perception
+* perception-oriented rendering pipelines
 
-The current versions intentionally preserve imperfections.
+The current architecture is being actively rewritten into modular engine layers to support future expansion into:
 
-Detection instability, noisy thresholds, inaccurate tracking, and visual artifacts are not always treated as flaws. Many of them actively contribute to the visual identity of the generated outputs. By my definition, this is soul bottled inside lenses and neon lights.
+* real-time surveillance systems
+* motion analysis
+* experimental CV pipelines
+* recursive visual synthesis
+* datamoshing-assisted rendering
+* aesthetic-driven machine vision
 
 ---
 
-## Philosophy
+# Current Architecture
 
-Most software attempts to remove uncertainty.
+The project has recently transitioned from a single monolithic source file into a modularized engine structure.
 
-`blobtracker` explores what happens when uncertainty becomes texture.
+Current pipeline:
 
-The goal is simple:
-
-> "make a machine perceive images and catch the essence of what is inside them."
-
-This project exists somewhere in the intersection between:
-
-* computer vision
-* systems programming
-* digital art
-* glitch aesthetics
-* surveillance imagery
-* recursive image processing
-* transfem cyber-aesthetics
+```text
+main()
+    ↓
+image_devouring()
+    ↓
+image_dissecting()
+    ↓
+nebula_detection()
+    ↓
+object_watcher()
+    ↓
+object_exhibit()
+    ↓
+essence_enacted()
+```
 
 ---
 
-## Features
+# Core Structures
 
-### Current Features
+## Soulcatcher
 
-* Brightness-based blob detection
-* Primitive region measurement
-* Centroid estimation
-* Bounding box rendering
-* Pixel visitation maps
-* Image annotation output
-* Experimental visual processing pipeline
-* Purple/magenta visual overlay system
-* Recursive image manipulation support
+Represents the loaded image entity.
 
-### Planned Features
+```c
+typedef struct
+{
+	int	width;
+	int	height;
+	int	channels;
+	unsigned char *data;
+} Soulcatcher;
+```
 
-* Real connected-component detection
-* Flood fill / BFS tracking
-* Video processing
-* Multi-frame tracking persistence
-* Motion trails
-* Optical flow experiments
-* Fake confidence scores
-* Temporal distortion systems
+This structure acts as the physical vessel of the image inside the engine.
+
+It stores:
+
+* dimensions
+* channel information
+* raw pixel data
+
+---
+
+## Theeye
+
+Stores temporary perception state during image traversal.
+
+Current responsibilities include:
+
+* visitation mapping
+* blob statistics
+* temporary tracking state
+
+Example usage:
+
+```c
+eye->visited
+eye->b_sum_x
+eye->b_sum_y
+eye->b_pixels
+```
+
+The structure exists to centralize machine perception state instead of scattering temporary variables across the entire codebase.
+
+---
+
+# Engine Layers
+
+## image_devouring()
+
+Responsible for:
+
+* loading the image
+* initializing engine entities
+* starting the processing pipeline
+* controlling memory lifecycle
+
+```text
+disk → memory → perception pipeline
+```
+
+---
+
+## image_dissecting()
+
+Acts as the orchestration layer.
+
+Responsibilities:
+
+* initializes perception maps
+* prepares tracking state
+* invokes detection systems
+
+Current setup:
+
+```c
+eye->visited = calloc(...)
+```
+
+This function is becoming the central coordinator for future CV systems.
+
+---
+
+## nebula_detection()
+
+Current perception layer.
+
+Responsibilities:
+
+* traverses every pixel
+* computes brightness values
+* applies preprocessing
+* prepares blob detection
+
+The current implementation intentionally darkens the image globally before analysis to exaggerate highlighted regions and future overlays.
+
+```c
+img->data[i] = img->data[i] / 2;
+```
+
+This preprocessing stage already contributes heavily to the engine's visual identity.
+
+---
+
+## object_watcher()
+
+Planned flood-fill based blob tracker.
+
+Future responsibilities:
+
+* connected-component analysis
+* recursive flood fill
+* centroid calculation
+* object size estimation
+* object persistence tracking
+
+This layer will eventually become the heart of the detection engine.
+
+---
+
+## object_exhibit()
+
+Visual annotation layer.
+
+Planned responsibilities:
+
+* bounding box rendering
+* overlay drawing
+* connection lines
+* object labeling
+* glitch overlays
+* tracking visualization
+
+This is where surveillance imagery and digital art begin merging together.
+
+---
+
+## essence_enacted()
+
+Final output layer.
+
+Responsibilities:
+
+* generates output filename
+* preserves original filename
+* exports processed image
+
+Example:
+
+```text
+mirror.png
+→
+mirror_renewed.jpg
+```
+
+The engine intentionally treats rendered outputs as transformed artifacts instead of simple exports.
+
+---
+
+# Current Features
+
+* Modular engine architecture(not modular enough yet, but you just wait.)
+* Brightness analysis
+* Pixel traversal
+* Image preprocessing
+* Automatic output naming
+* Memory-safe image loading pipeline
+* Experimental CV framework
+* Recursive-ready architecture
+* Object visitation mapping
+* Future flood-fill integration support
+
+---
+
+# Planned Features
+
+## Computer Vision
+
+* Recursive flood fill
+* Connected-component labeling
+* Motion tracking
+* Temporal tracking persistence
+* Real-time webcam processing
+* Video dissection pipelines
+
+---
+
+## Aesthetic Systems
+
+* Datamoshing overlays
 * Recursive frame degradation
 * Compression artifact synthesis
-* Procedural subtitle/text overlays
-* Realtime webcam tracking
-* GPU acceleration experiments
-* Datamoshing integration
-* Glitch feedback loops
-(But it can go into many different ways...)
+* CRT-inspired overlays
+* Subtitle systems
+* Surveillance UI rendering
+* Procedural visual noise
+* Multi-layer recursive compositions
+* Neon/magenta rendering pipelines
 
 ---
 
-## Tech Stack
+## Engine Expansion
 
-### Language
+* GPU acceleration experiments
+* Multi-threading
+
+---
+
+# Philosophy
+
+Most computer vision systems attempt to remove ambiguity.
+
+`blobtracker` explores the opposite direction.
+
+Noise is useful texture.
+Detection instability becomes style.
+Machine's failled attempts atmosphere.
+
+The engine intentionally preserves imperfect detections because imperfect perception often creates more emotionally charged imagery than perfect classification ever could.
+
+
+```text
+"The problem isn't that I'm going insane, but rather that I'm not.
+
+My true euphoria comes from c codes in a black canvas and low-res edits while i build digital flowers for a soul garden that i will one day gift away."
+```
+
+---
+
+# Tech Stack
+
+## Language
 
 * C
 
-### Libraries
+## Libraries
 
 * stb_image
 * stb_image_write
 
-### Paradigms / Areas
+## Areas
 
-* Low-level image processing
-* Computer vision
-* Systems programming
-* Experimental graphics
-* Procedural visual generation
+* Computer Vision
+* Systems Programming
+* Experimental Graphics
+* Image Processing
+* Procedural Rendering
 
 ---
 
-## Build
+# Build
 
-### Linux / macOS
+## Linux / macOS
 
 ```bash
-cc blobtracker.c -o blobtracker -lm
+cc main.c processing.c -o blobtracker -lm
 ```
 
-### Run
+---
+
+# Run
 
 ```bash
 ./blobtracker image.png
 ```
 
-Output:
+---
+
+# Output
 
 ```text
-finished_job.jpg
+image_renewed.jpg
 ```
 
 ---
 
-## How It Works
-
-The current pipeline roughly follows:
-
-```text
-Image
-→ Brightness thresholding
-→ Pixel visitation mapping
-→ Primitive blob region detection
-→ Centroid estimation
-→ Bounding box rendering
-→ Output image generation
-```
-
-At the moment, the project does not yet implement true connected-component analysis.
-
-The tracker currently scans large local regions around bright pixels to estimate blobs. While technically imperfect, this behavior also creates unstable and fragmented detections that contribute to the project's aesthetic identity.
-
----
-
-## About the Author
+# About the Author
 
 Hi.
 
-I'm Lyra — a transfem data analyst and data engineer currently studying software engineering at 42 São Paulo.
+I'm Lyra — a transgender data analyst and data engineer currently studying software engineering at 42 São Paulo.
 
 I like:
 
-* low-level programming
-* weird visual systems
+* low-level systems
 * machine perception
-* glitch aesthetics
-* digital art
-* recursive image manipulation
+* weird rendering pipelines
 * emotionally charged software
-* building tools that feel alive
+* glitch aesthetics
+* recursive image manipulation
+* surveillance imagery
 
-`blobtracker` started as a technical curiosity and slowly became a way to externalize my own visual language into software.
-
----
-
-## Why?
-
-Because proprietary software can imitate aesthetics.
-
-But building your own tools means embedding your perception directly into the machine.
-
-"The problem isn't that I'm going insane, but rather that I'm not.
-
-My true euphoria comes from c codes in a black canvas and low-res edits while i build digital flowers for a soul garden that i will one day gift."
+`blobtracker` started as insomnia-fueled experimentation and slowly became a way to externalize perception itself into code.
 
 ---
 
-## License
+# Why Build This In C?
 
-MIT License
+Because sometimes the point is not efficiency.
+
+Sometimes the point is intimacy with the machine.
+
+Yes, this could have been prototyped faster in Python using high-level CV libraries.
+
+But writing perception systems in C forces direct contact with:
+
+* memory
+* traversal
+* pixel logic
+* engine structure
+* computational anatomy
+
+Every artifact becomes understandable at its lowest level.
+
+And somehow, that changes the feeling of the software itself.
+
+---
+
+# Final Notes
+
+`blobtracker` currently exists in a strange place between:
+
+* surveillance software
+* perception research
+* systems programming
+* glitch art
+* emotional rendering
+* cyber-aesthetic experimentation
+
+And honestly?
+
+That's just exactly where it belongs.
+
+---
+
+# License
+
+MIT License.
 
 Or do whatever you want with it.
 

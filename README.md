@@ -280,9 +280,13 @@ The engine intentionally preserves imperfect detections because imperfect percep
 
 
 ```text
-"The problem isn't that I'm going insane, but rather that I'm not.
+"The problem isn't that I'm going insane, but
+rather that I'm not.
 
-My true euphoria comes from c codes in a black canvas and low-res edits while i build digital flowers for a soul garden that i will one day gift away."
+My true euphoria comes from c codes in a black
+canvas and low-res edits while i build digital
+flowers for a soul garden that i will one day
+gift away."
 ```
 
 ---

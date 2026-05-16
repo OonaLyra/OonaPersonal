@@ -7,7 +7,7 @@
 
 /* Command to compile is: cc blobtracker.c processing.c -o blobtracker -lm
 And to run you just ./blobtracker 'image_path.png'
-Ver 0.0.5*/
+Ver 0.0.6*/
 int main(int argc, char *argv[])
 {
 	int	i;

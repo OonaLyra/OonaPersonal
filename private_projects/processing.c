@@ -5,6 +5,10 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+/* Keep in mind, there will be little to no comments inside this
+code because most of the explaining i have to do will be written
+on the documentation of the projects. ALL of them.
+*/
 int	image_devouring(char *imagepath)
 {
 	Soulcatcher img;
@@ -37,30 +41,94 @@ int	object_exhibit(int ky, int kx)
 	return (0);
 }
 
-int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
-{
 	/* This function exists only to bear the algoryth to find blobs
 	inside the devoured file and will be invoked inside the image 
 	dissecting function and will only ever be used inside it.*/
+int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
+{
+	int	stack_x[8192];
+	int	stack_y[8192];
+	int	top;
+	int cx;
+	int	cy;
+	int	nx;
+	int	ny;
+	int	nrs_idx;
+	int data_idx;
+	int	bright;
+	int	i;
+
+	eye->b_sum_x = 0;
+	eye->b_sum_y = 0;
+	eye->b_pixels = 0;
+	top = 0;
+	stack_x[top] = x;
+	stack_y[top] = y;
+	top++;
+	eye->visited[y * img->width + x] = 1;
+	while (top > 0)
+	{
+		/* Just setting some stats to work with.*/
+		top--;
+		cx = stack_x[top];
+		cy = stack_x[top];
+		eye->b_sum_x += cx;
+		eye->b_sum_y += cy;
+		eye->b_pixels++;
+		int dx[4] = {0, 0, -1, 1};
+		int dy[4] = {-1, 1, 0, 0};
+		i = 0;
+		/* Outter clipping */
+		while (i < 4)
+		{
+			nx = cx + dx[i];
+			ny = cy + dy[i];
+			if (nx >= 0 && nx < img->width && ny >=  0 && ny < img->height)
+			{
+				nrs_idx = ny * img->width + nx;
+				data_idx = nrs_idx * 4;
+				bright = (img->data[data_idx] + img->data[data_idx + 1] + img->data[data_idx + 2]) / 3;
+				/*This code block will understand the brightness of a pixel
+				and work withit accordingly*/
+				if(bright < 75 && !eye->visited)
+				{
+					if (top < 8192) /*Yes, arbitrary number to avoid overflow.*/
+					{
+						eye->visited[nrs_idx] = 1;
+						stack_x[top] = nx;
+						stack_y[top] = ny;
+						top++;
+					}
+				}
+			}
+			i++;
+		}
+		/* We count the blob if it's big enough and if it doesnt blow
+		up our previously built stack of alr detected blobs.*/
+		if (eye->b_pixels > 450 && eye->blob_count < 100) 
+		{
+			eye->blobs[eye->blob_count].id = eye->blob_count;
+			eye->blobs[eye->blob_count].center_x = (int)(eye->b_sum_x / eye->b_pixels);
+			eye->blobs[eye->blob_count].center_y = (int)(eye->b_sum_y / eye->b_pixels);
+		}
+	}
 	return (0);
 }
 
 /* This is the finder of funny things in the image*/
 int	nebula_detection(Soulcatcher *img, Theeye *eye)
 {
-	int	ky;
-	int	kx;
 	int	y;
 	int	x;
-	int	nrs_pix_idx;
 	int	pix_idx;
+	int	data_idx;
 	int bright;
 	int	i;
 
 	y = 0;
+	i = 0;
 	/*just tone down the image overall bright to
 	see if it's working as intended (it is.)*/
-	i = 0;
     while (i < img->width * img->height * 4)
 	{
         if (i % 4 != 3)
@@ -74,6 +142,10 @@ int	nebula_detection(Soulcatcher *img, Theeye *eye)
 		{
 			pix_idx = (y * img->width + x) * 4;
 			bright = (img->data[pix_idx] + img->data[pix_idx + 1] + img->data[pix_idx + 2]) / 3;
+			if (bright > 75 && !eye->visited[pix_idx])
+			{
+				object_watcher(img, eye, x, y);
+			}
 			x++;
 		}
 		y++;
@@ -92,6 +164,7 @@ int	image_dissecting(Soulcatcher *img, Theeye *eye)
 	eye->b_sum_y = 0;
 	eye->b_pixels = 0;
 	nebula_detection(img, eye);
+	/* Here we invoke the UI drawer.*/
 	free(eye->visited);
 	return (0);
 }

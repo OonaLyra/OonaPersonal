@@ -6,7 +6,12 @@ typedef struct
 	int	id;
 	int center_x;
 	int center_y;
+	int	min_x;
+	int	min_y;
+	int	max_x;
+	int	max_y;
 	int obj_index;
+	int	b_pixels;
 } Blob;
 
 typedef struct
@@ -24,7 +29,7 @@ typedef struct
 	int b_sum_y;
 	int	b_pixels;
 	unsigned char	*visited;
-	Blob	blobs[100];
+	Blob	blobs[512];
 	int	blob_count;
 	
 } Theeye;

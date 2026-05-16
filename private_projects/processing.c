@@ -161,6 +161,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 		eye->blobs[eye->blob_count].id = eye->blob_count;
 		eye->blobs[eye->blob_count].center_x = (int)(eye->b_sum_x / eye->b_pixels);
 		eye->blobs[eye->blob_count].center_y = (int)(eye->b_sum_y / eye->b_pixels);
+		eye->blobs[eye->blob_count].b_pixels = eye->b_pixels;
 		eye->blob_count++;
 	}
 	return (0);

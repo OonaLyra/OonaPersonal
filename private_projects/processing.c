@@ -160,12 +160,12 @@ int	image_dissecting(Soulcatcher *img, Theeye *eye)
 	/* Map for visited pixels*/
 	eye->visited = (unsigned char *)calloc(img->width * img->height, 1);
 
-	/*temp blob stats */
+	/*temp blob stats init so we don't actually get anymore segfaults */
 	eye->b_sum_x = 0;
 	eye->b_sum_y = 0;
 	eye->b_pixels = 0;
 	nebula_detection(img, eye);
-	/* Here we invoke the UI drawer.*/
+	/* Here we invoke the object_exhibit drawer when ready.*/
 	free(eye->visited);
 	return (0);
 }

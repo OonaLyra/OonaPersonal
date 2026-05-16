@@ -71,7 +71,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 		/* Just setting some stats to work with.*/
 		top--;
 		cx = stack_x[top];
-		cy = stack_x[top];
+		cy = stack_y[top];
 		eye->b_sum_x += cx;
 		eye->b_sum_y += cy;
 		eye->b_pixels++;
@@ -90,7 +90,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 				bright = (img->data[data_idx] + img->data[data_idx + 1] + img->data[data_idx + 2]) / 3;
 				/*This code block will understand the brightness of a pixel
 				and work withit accordingly*/
-				if(bright < 75 && !eye->visited)
+				if(bright > 75 && !eye->visited[nrs_idx])
 				{
 					if (top < 8192) /*Yes, arbitrary number to avoid overflow.*/
 					{
@@ -103,14 +103,15 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 			}
 			i++;
 		}
-		/* We count the blob if it's big enough and if it doesnt blow
-		up our previously built stack of alr detected blobs.*/
-		if (eye->b_pixels > 450 && eye->blob_count < 100) 
-		{
-			eye->blobs[eye->blob_count].id = eye->blob_count;
-			eye->blobs[eye->blob_count].center_x = (int)(eye->b_sum_x / eye->b_pixels);
-			eye->blobs[eye->blob_count].center_y = (int)(eye->b_sum_y / eye->b_pixels);
-		}
+	}
+	/* We count the blob if it's big enough and if it doesnt blow
+	up our previously built stack of alr detected blobs.*/
+	if (eye->b_pixels > 450 && eye->blob_count < 100) 
+	{
+		eye->blobs[eye->blob_count].id = eye->blob_count;
+		eye->blobs[eye->blob_count].center_x = (int)(eye->b_sum_x / eye->b_pixels);
+		eye->blobs[eye->blob_count].center_y = (int)(eye->b_sum_y / eye->b_pixels);
+		eye->blob_count++;
 	}
 	return (0);
 }

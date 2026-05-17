@@ -12,6 +12,10 @@ typedef struct
 	int	max_y;
 	int obj_index;
 	int	b_pixels;
+	int	width;
+	int	height;
+	float	density;
+	float	aspect_ratio;
 } Blob;
 
 typedef struct

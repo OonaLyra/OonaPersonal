@@ -46,7 +46,7 @@ int	object_containment(Soulcatcher *img, Blob *mass)
 	int	idx;
 	int	is_border;
 
-	thicc = 2;
+	thicc = 5;
 	y = mass->min_y;
 	while (y <= mass->max_y)
 	{
@@ -78,8 +78,8 @@ int	object_containment(Soulcatcher *img, Blob *mass)
 	dissecting function and will only ever be used inside it.*/
 int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 {
-	int	stack_x[8192];
-	int	stack_y[8192];
+	int	stack_x[16384];
+	int	stack_y[16384];
 	int	top;
 	int cx;
 	int	cy;
@@ -89,6 +89,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 	int data_idx;
 	int	bright;
 	int	i;
+	int	ratio;
 
 	Blob *mass;
 	eye->b_sum_x = 0;
@@ -125,11 +126,11 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 			mass->min_y = cy;
 		if (cy > mass->max_y)
 			mass->max_y = cy;
-		int dx[4] = {0, 0, -1, 1};
-		int dy[4] = {-1, 1, 0, 0};
+		int dx[8] = {-1,0,1,-1,1,-1,0,1};
+		int dy[8] = {-1,-1,-1,0,0,1,1,1};
 		i = 0;
-		/* Outter clipping */
-		while (i < 4)
+		/* Outter clipping, now octi-directional, bish */
+		while (i < 8)
 		{
 			nx = cx + dx[i];
 			ny = cy + dy[i];
@@ -142,7 +143,7 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 				and work withit accordingly*/
 				if(bright > 110 && !eye->visited[nrs_idx])
 				{
-					if (top < 8192) /*Yes, arbitrary number to avoid overflow.*/
+					if (top < 16384) /*Yes, arbitrary number to avoid overflow.*/
 					{
 						eye->visited[nrs_idx] = 1;
 						stack_x[top] = nx;
@@ -154,9 +155,28 @@ int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y)
 			i++;
 		}
 	}
-	/* We count the blob if it's big enough and if it doesnt blow
+	/* We kinda need to do the blobtracker a lil better at find
+	what useful blobs really are, and for that
+	we make some decent metrics that will be REEEEEALLY useful
+	later.*/
+	mass->width = mass->max_x - mass->min_x + 1;
+	mass->height = mass->max_y - mass->min_y + 1;
+	mass->aspect_ratio = (float)mass->width / (float)mass->height;
+	mass->density = (float)eye->b_pixels / ((float)mass->width * (float)mass->height);
+	/* Let's filter MORE. Prevent any weird things from being taken as objects.
+	Like a pole for instance.*/
+	if (mass->width < 10 || mass->height < 10)
+		return (0);
+	if (mass->aspect_ratio > 6.0 || mass->aspect_ratio < 0.15)
+		return (0);
+	ratio = (float)mass->width / (float)mass->height;
+	/* And now weird tall/wide objects will have a higher ratio.*/
+	if (ratio < 1.0)
+		ratio = 1.0 / ratio;
+	mass->aspect_ratio = ratio;
+	/* We NOW count if the blob is infact useful as a blob and if it doesnt blow
 	up our previously built stack of alr detected blobs.*/
-	if (eye->b_pixels > 450  && eye->blob_count < 512) 
+	if (eye->b_pixels > 250  && eye->blob_count < 512 && mass->density > 0.20) 
 	{
 		eye->blobs[eye->blob_count].id = eye->blob_count;
 		eye->blobs[eye->blob_count].center_x = (int)(eye->b_sum_x / eye->b_pixels);

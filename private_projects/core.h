@@ -44,5 +44,6 @@ int nebula_detection(Soulcatcher *img, Theeye *eye);
 int	essence_enacted(Soulcatcher *img, char *imagepath);
 int	object_exhibit(int ky, int kx);
 int	object_watcher(Soulcatcher *img, Theeye *eye, int x, int y);
+int	observer(int width, int height);
 
 #endif // CORE_H

@@ -18,7 +18,7 @@ typedef struct
 	float	aspect_ratio;
 } Blob;
 
-typedef struct
+typedef struct s_soulcatcher
 {
 	int	width;
 	int height;
@@ -27,7 +27,7 @@ typedef struct
 	
 } Soulcatcher;
 
-typedef struct
+typedef struct s_theeye
 {
 	int	b_sum_x;
 	int b_sum_y;

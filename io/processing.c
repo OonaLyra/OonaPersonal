@@ -1,8 +1,14 @@
 #include "core.h"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_keycode.h>
+#include <SDL2/SDL_pixels.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <SDL2/SDL.h>
 #include "stb_image.h"
 #include "stb_image_write.h"
 
@@ -10,29 +16,6 @@
 code because most of the explaining i have to do will be written
 on the documentation of the projects. ALL of them.
 */
-int	image_devouring(char *imagepath)
-{
-	Soulcatcher img;
-	Theeye eye = {0};
-
-	img.data = stbi_load(imagepath, &img.width, &img.height, &img.channels, 4);
-	if (!img.data)
-	{
-		printf("Loading failed: %s.\n", imagepath);
-		stbi_image_free(img.data);
-		return(1);
-	}
-	else
-	{
-		image_dissecting(&img, &eye);
-
-		printf("Object successfully initiated: %dx%d | %d canais.\n", img.width, img.height, img.channels);
-		essence_enacted(&img, imagepath);
-	}
-	stbi_image_free(img.data);
-	return (0);
-}
-
 /* This function has the goal of simply drawing over
 	the found blob, being only called by the nebula detection
 	and will only ever be used inside it. Already exists on the
@@ -283,65 +266,5 @@ int	image_dissecting(Soulcatcher *img, Theeye *eye)
 	}
 	/* Here we invoke the object_exhibit drawer when ready.*/
 	free(eye->visited);
-	return (0);
-}
-/* This right here saves the file with the name of the original name
-plus _renewed.jpg at the end.*/
-int	essence_enacted(Soulcatcher *img, char *imagepath)
-{
-	char	*essence = strrchr(imagepath, '/');
-	char	karma[256];
-	if (essence)
-		essence++;
-	else
-	 	essence = imagepath;
-	strcpy(karma, essence);
-	char	*dot = strrchr(karma, '.');
-	if (dot)
-		*dot = '\0';
-	strcat(karma, "_renewed.jpg");
-	stbi_write_jpg(karma, img->width, img->height, 4, img->data, 100);
-	printf("Content spat out by the star as: %s\n", karma);
-	return (0);
-}
-
-/* Here we're going to use the fread and fwrite to get video from the cam*/
-int	observer(int width, int height)
-{
-	Soulcatcher img;
-	size_t	frame_size;
-	size_t	bytes_read;
-	long	frame_count;
-
-	img.width = width;
-	img.height = height;
-	img.channels = 4;
-	frame_size = width * height * 4;
-	frame_count = 0;
-	img.data = (unsigned char*)malloc(frame_size);
-	if (!img.data)
-	{
-		fprintf(stderr, "No data to digest.");
-		return (1);
-	}
-	fprintf(stderr, "[Surveilling initiated] waiting for bytes on STDIN (%dx%d RGBA)...\n", width, height);
-	while (1)
-	{
-		bytes_read = fread(img.data, 1, frame_size, stdin);
-		if (bytes_read < frame_size)
-		{
-			fprintf(stderr, "[SIGHT INTERRUPTED]. Channel faillure!\n");
-			break;
-		}
-		Theeye eye = {0};
-		image_dissecting(&img, &eye);
-		fwrite(img.data, 1, frame_size, stdout);
-		frame_count++;
-		if (frame_count % 30 == 0)
-		{
-			fprintf(stderr, "[TELEMETRY] - processed frames: %ld | entities found: %d\n", frame_count, eye.blob_count > 8 ? 8 : eye.blob_count);
-		}
-	}
-	free(img.data);
 	return (0);
 }
